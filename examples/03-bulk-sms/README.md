@@ -21,7 +21,7 @@ KWTSMS_TEST_MODE=1
 ## Walkthrough
 
 1. **Auto-batching.** `sendBulk()` splits numbers into batches of 200 (the API maximum per request).
-2. **Rate limiting.** 0.5s delay between batches keeps you under the 2 req/s API limit.
+2. **Rate limiting.** 0.5s delay between batches keeps you at 2 req/s or less, well under the API's 10 req/s limit.
 3. **ERR013 retry.** If the API queue is full (1000 messages), the client retries with exponential backoff: 30s, 60s, 120s.
 4. **Deduplication.** Duplicate numbers (after normalization) are sent only once.
 5. **Aggregated results.** The response includes totals across all batches and per-batch error details.
