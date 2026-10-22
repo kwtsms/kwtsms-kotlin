@@ -9,7 +9,8 @@ package com.kwtsms
  * @param username API username (not your account mobile number)
  * @param password API password
  * @param senderId Sender ID (default: "KWT-SMS" for testing only)
- * @param testMode When true, messages enter the queue but are not delivered (no credits consumed)
+ * @param testMode When true, messages enter the queue but are not delivered; their credits are held until you
+ *   delete them from the Sending Queue in your kwtsms.com account (2026-10-22 15:36 +03: corrected, test sends are not free)
  * @param logFile Path to JSONL log file (empty string to disable logging)
  */
 class KwtSMS(

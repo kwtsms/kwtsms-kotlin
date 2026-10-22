@@ -15,7 +15,8 @@ import kotlin.test.assertTrue
  * Integration tests against the live kwtSMS API.
  *
  * Requires KOTLIN_USERNAME and KOTLIN_PASSWORD environment variables.
- * Always uses testMode=true so no credits are consumed and no messages are delivered.
+ * Always uses testMode=true: no messages are delivered; delete the queued test messages from the
+ * Sending Queue to release their held credits. (2026-10-22 15:36 +03: corrected, test sends hold credits.)
  * Skipped gracefully if credentials are not set.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

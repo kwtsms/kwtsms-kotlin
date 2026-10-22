@@ -49,9 +49,10 @@ class ApiErrorsTest {
     }
 
     @Test
-    fun `API_ERRORS ERR028 mentions 15 seconds`() {
+    // 2026-10-22 15:36 +03: ERR028 action no longer states a fixed 15 s window.
+    fun `API_ERRORS ERR028 says too soon`() {
         val action = API_ERRORS["ERR028"]!!
-        assertTrue(action.contains("15 seconds"))
+        assertTrue(action.contains("too soon"))
     }
 
     @Test
@@ -212,7 +213,8 @@ class ApiErrorsTest {
             "description" to "Rate limited"
         )
         val enriched = enrichError(response)
-        assertTrue(enriched["action"].toString().contains("15 seconds"))
+        // 2026-10-22 15:36 +03: ERR028 action no longer states a fixed 15 s window.
+        assertTrue(enriched["action"].toString().contains("too soon"))
     }
 
     @Test

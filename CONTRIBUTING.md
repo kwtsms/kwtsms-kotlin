@@ -53,7 +53,7 @@ cd kwtsms-kotlin
 KWTSMS_USERNAME=kotlin_username KWTSMS_PASSWORD=kotlin_password ./gradlew test --tests "com.kwtsms.IntegrationTest"
 ```
 
-Integration tests use `testMode=true` (no credits consumed). They are skipped automatically if credentials are not set.
+Integration tests use `testMode=true` (not delivered; delete the queued test messages from the Sending Queue to release their held credits). They are skipped automatically if credentials are not set.
 
 ## Build
 
@@ -114,7 +114,7 @@ Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
 Examples:
 ```
 feat: add status() method for message queue lookup
-fix: handle ERR028 (15s same-number cooldown) in bulk send
+fix: handle ERR028 (duplicate SMS protection) in bulk send
 test: cover Arabic digit normalization edge cases
 ```
 

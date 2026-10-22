@@ -386,7 +386,7 @@ when (result.result) {
 | ERR010 | Zero balance | Recharge at kwtsms.com |
 | ERR013 | Queue full | Auto-retried with backoff |
 | ERR025 | Invalid number format | Use digits-only international format |
-| ERR028 | Same number too fast | Wait 15 seconds between sends to same number |
+| ERR028 | Sent to the same number too soon. | Duplicate SMS protection is opt-in per account; wait for the account's window (10 seconds by default) |
 
 All 29 error codes are mapped. Access the full map via `API_ERRORS`:
 
@@ -419,9 +419,8 @@ for ((code, action) in API_ERRORS) {
 
 Set `KWTSMS_TEST_MODE=1` or pass `testMode = true` to the constructor. In test mode:
 - Messages enter the kwtSMS queue but are NOT delivered to handsets
-- No SMS credits are consumed
+- Their credits are held until you delete them from the Sending Queue in your kwtsms.com account
 - Test messages appear in the Sending Queue at kwtsms.com
-- Delete them from the queue to recover any tentatively held credits
 
 Set `KWTSMS_TEST_MODE=0` before going live.
 
@@ -553,7 +552,7 @@ Check the **Sending Queue** at [kwtsms.com](https://www.kwtsms.com/login/). If y
 
 **2. What is the difference between Test mode and Live mode?**
 
-**Test mode** (`KWTSMS_TEST_MODE=1`) sends your message to the kwtSMS queue but does NOT deliver it to the handset. No SMS credits are consumed. Use this during development. **Live mode** (`KWTSMS_TEST_MODE=0`) delivers the message for real and deducts credits. Always develop in test mode and switch to live only when ready for production.
+**Test mode** (`KWTSMS_TEST_MODE=1`) sends your message to the kwtSMS queue but does NOT deliver it to the handset. Its credits are held until you delete it from the Sending Queue in your kwtsms.com account. Use this during development. **Live mode** (`KWTSMS_TEST_MODE=0`) delivers the message for real and deducts credits. Always develop in test mode and switch to live only when ready for production.
 
 **3. What is a Sender ID and why should I not use "KWT-SMS" in production?**
 

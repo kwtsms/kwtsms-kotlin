@@ -12,7 +12,7 @@
 ## Running examples
 
 1. Set up your `.env` file with kwtSMS credentials (see each example's README)
-2. Set `KWTSMS_TEST_MODE=1` during development (no credits consumed, no messages delivered)
+2. Set `KWTSMS_TEST_MODE=1` during development (queued, not delivered; credits held until you delete them from the Sending Queue)
 3. Run with: `kotlinc -cp kwtsms.jar ExampleFile.kt -include-runtime -d example.jar && java -jar example.jar`
 
 Or add the examples to a Gradle project that depends on `kwtsms-kotlin`.
