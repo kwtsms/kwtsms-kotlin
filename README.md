@@ -1,9 +1,9 @@
 # kwtSMS Kotlin Client
 
-[![Test](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/test.yml/badge.svg)](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/test.yml)
-[![CodeQL](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/codeql.yml/badge.svg)](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/codeql.yml)
-[![GitGuardian](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/gitguardian.yml/badge.svg)](https://github.com/boxlinknet/kwtsms-kotlin/actions/workflows/gitguardian.yml)
-[![Release](https://img.shields.io/github/v/release/boxlinknet/kwtsms-kotlin)](https://github.com/boxlinknet/kwtsms-kotlin/releases/latest)
+[![Test](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/test.yml/badge.svg)](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/test.yml)
+[![CodeQL](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/codeql.yml/badge.svg)](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/codeql.yml)
+[![GitGuardian](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/gitguardian.yml/badge.svg)](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/gitguardian.yml)
+[![Release](https://img.shields.io/github/v/release/kwtsms/kwtsms-kotlin)](https://github.com/kwtsms/kwtsms-kotlin/releases/latest)
 [![JitPack](https://jitpack.io/v/boxlinknet/kwtsms-kotlin.svg)](https://jitpack.io/#boxlinknet/kwtsms-kotlin)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9%2B-7F52FF.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Java 8+](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://adoptium.net/)

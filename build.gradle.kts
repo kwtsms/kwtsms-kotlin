@@ -38,7 +38,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/boxlinknet/kwtsms-kotlin")
+            url = uri("https://maven.pkg.github.com/kwtsms/kwtsms-kotlin")
             credentials {
                 username = System.getenv("GITHUB_ACTOR") ?: ""
                 password = System.getenv("GITHUB_TOKEN") ?: ""
@@ -55,7 +55,7 @@ publishing {
             pom {
                 name.set("kwtsms")
                 description.set("Official Kotlin client for the kwtSMS SMS gateway API")
-                url.set("https://github.com/boxlinknet/kwtsms-kotlin")
+                url.set("https://github.com/kwtsms/kwtsms-kotlin")
                 licenses {
                     license {
                         name.set("MIT License")
@@ -70,9 +70,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/boxlinknet/kwtsms-kotlin.git")
-                    developerConnection.set("scm:git:ssh://github.com/boxlinknet/kwtsms-kotlin.git")
-                    url.set("https://github.com/boxlinknet/kwtsms-kotlin")
+                    connection.set("scm:git:git://github.com/kwtsms/kwtsms-kotlin.git")
+                    developerConnection.set("scm:git:ssh://github.com/kwtsms/kwtsms-kotlin.git")
+                    url.set("https://github.com/kwtsms/kwtsms-kotlin")
                 }
             }
         }

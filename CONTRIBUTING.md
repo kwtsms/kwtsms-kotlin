@@ -4,7 +4,7 @@ Contributions are welcome: bug reports, fixes, new examples, and documentation i
 
 ## Before You Start
 
-- Search [existing issues](https://github.com/boxlinknet/kwtsms-kotlin/issues) before opening a new one
+- Search [existing issues](https://github.com/kwtsms/kwtsms-kotlin/issues) before opening a new one
 - Open an issue before starting large changes to discuss the approach
 - All contributions must pass the test suite
 
@@ -18,7 +18,7 @@ Contributions are welcome: bug reports, fixes, new examples, and documentation i
 ### Clone and build
 
 ```bash
-git clone https://github.com/boxlinknet/kwtsms-kotlin.git
+git clone https://github.com/kwtsms/kwtsms-kotlin.git
 cd kwtsms-kotlin
 ./gradlew build
 ```
@@ -157,7 +157,7 @@ Include in your bug report:
 
 ## Security Issues
 
-Do not open public issues for security vulnerabilities. Use [GitHub Security Advisories](https://github.com/boxlinknet/kwtsms-kotlin/security/advisories) or contact support directly.
+Do not open public issues for security vulnerabilities. Use [GitHub Security Advisories](https://github.com/kwtsms/kwtsms-kotlin/security/advisories) or contact support directly.
 
 ## License
 
