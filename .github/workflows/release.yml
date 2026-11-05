@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Build JARs
         # 2026-11-05 09:09 +03: build runs the tests, which read the test number from this secret and skip when unset. Task: int-testnumber
