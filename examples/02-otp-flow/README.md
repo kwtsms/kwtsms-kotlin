@@ -29,7 +29,7 @@ KWTSMS_TEST_MODE=1
 ## Expected output
 
 ```
-OTP sent to 96598765432
+OTP sent to 965XXXXXXXX
 Message ID: f4c841adee210f31307633ceaebff2ec
 ```
 

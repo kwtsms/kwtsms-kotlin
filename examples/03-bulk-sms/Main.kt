@@ -13,8 +13,9 @@ import com.kwtsms.KwtSMS
 fun main() {
     val sms = KwtSMS.fromEnv()
 
-    // Generate a list of 500 numbers for demonstration
-    val numbers = (1..500).map { "9659${it.toString().padStart(7, '0')}" }
+    // Your own opted-in recipients, one number per line (e.g. 965XXXXXXXX).
+    // Never generate number ranges: generated numbers belong to real people.
+    val numbers = java.io.File("recipients.txt").readLines().map { it.trim() }.filter { it.isNotEmpty() }
 
     println("Sending to ${numbers.size} numbers...")
     val result = sms.sendBulk(numbers, "Bulk message from kwtSMS Kotlin client")

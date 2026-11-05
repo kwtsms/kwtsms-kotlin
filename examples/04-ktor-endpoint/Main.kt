@@ -44,7 +44,7 @@ fun main() {
                 if (!valid) {
                     return@post call.respond(
                         HttpStatusCode.BadRequest,
-                        mapOf("error" to "Please enter a valid phone number (e.g., +965 9876 5432).")
+                        mapOf("error" to "Please enter a valid phone number (e.g., +965 XXXX XXXX).")
                     )
                 }
 

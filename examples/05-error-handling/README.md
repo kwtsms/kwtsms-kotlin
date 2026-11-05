@@ -32,7 +32,7 @@ KWTSMS_TEST_MODE=1
   'user@example.com' -> ERROR: 'user@example.com' is an email address, not a phone number
   '12345' -> ERROR: '12345' is too short (5 digits, minimum is 7)
   'abcdef' -> ERROR: 'abcdef' is not a valid phone number, no digits found
-  '+96598765432' -> OK (normalized: 96598765432)
+  '+965XXXXXXXX' -> OK (normalized: 965XXXXXXXX)
 
 === Message Cleaning ===
   Input:   'Hello [emoji] World'

@@ -41,7 +41,7 @@ dependencies {
 
 ```
 curl -X POST http://localhost:8080/send-sms \
-  -d "phone=+96598765432" \
+  -d "phone=+965XXXXXXXX" \
   -d "message=Hello from Ktor!"
 
 {"success":true,"messageId":"f4c841adee210f31307633ceaebff2ec","balance":180.0}

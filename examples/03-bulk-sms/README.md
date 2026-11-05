@@ -18,6 +18,8 @@ KWTSMS_SENDER_ID=YOUR-SENDERID
 KWTSMS_TEST_MODE=1
 ```
 
+Put your recipients in `recipients.txt`, one number per line in international format (e.g. `965XXXXXXXX`). Use only numbers that agreed to receive your messages.
+
 ## Walkthrough
 
 1. **Auto-batching.** `sendBulk()` splits numbers into batches of 200 (the API maximum per request).

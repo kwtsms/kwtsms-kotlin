@@ -18,6 +18,10 @@ import kotlin.test.assertTrue
  * Always uses testMode=true: no messages are delivered; delete the queued test messages from the
  * Sending Queue to release their held credits. (2026-10-22 15:36 +03: corrected, test sends hold credits.)
  * Skipped gracefully if credentials are not set.
+ *
+ * 2026-11-05 09:08 +03: every send goes only to KWTSMS_TEST_NUMBER (TestNumber helper,
+ * skips when unset), including the leading-zero case that used to send to a bare local number.
+ * Why: the old hardcoded numbers belong to real people. Task: int-testnumber
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -95,7 +99,7 @@ class IntegrationTest {
     @Order(10)
     fun `send - single valid Kuwait number`() {
         requireCredentials()
-        val result = sms.send("96598765432", "Test message from Kotlin client")
+        val result = sms.send(TestNumber.get(), "Test message from Kotlin client")
         // In test mode, the API should accept the message
         assertEquals("OK", result.result, "Send failed: ${result.description} ${result.action}")
         assertNotNull(result.msgId)
@@ -105,7 +109,7 @@ class IntegrationTest {
     @Order(11)
     fun `send - plus prefix normalization`() {
         requireCredentials()
-        val result = sms.send("+96598765432", "Test with + prefix")
+        val result = sms.send(TestNumber.variant("plus"), "Test with + prefix")
         assertEquals("OK", result.result, "Send with + prefix failed: ${result.description}")
     }
 
@@ -113,7 +117,7 @@ class IntegrationTest {
     @Order(12)
     fun `send - 00 prefix normalization`() {
         requireCredentials()
-        val result = sms.send("0096598765432", "Test with 00 prefix")
+        val result = sms.send(TestNumber.variant("00"), "Test with 00 prefix")
         assertEquals("OK", result.result, "Send with 00 prefix failed: ${result.description}")
     }
 
@@ -121,9 +125,9 @@ class IntegrationTest {
     @Order(13)
     fun `send - Arabic digit normalization`() {
         requireCredentials()
-        // ٩٦٥٩٨٧٦٥٤٣٢
+        // The test number written in Arabic-Indic digits
         val result = sms.send(
-            "\u0669\u0666\u0665\u0669\u0668\u0667\u0666\u0665\u0664\u0663\u0662",
+            TestNumber.variant("arabic"),
             "Test with Arabic digits"
         )
         assertEquals("OK", result.result, "Send with Arabic digits failed: ${result.description}")
@@ -164,7 +168,7 @@ class IntegrationTest {
     fun `send - mixed valid and invalid numbers`() {
         requireCredentials()
         val result = sms.send(
-            listOf("96598765432", "user@example.com", "12345"),
+            listOf(TestNumber.get(), "user@example.com", "12345"),
             "Mixed number test"
         )
         // The valid number should be sent
@@ -177,7 +181,7 @@ class IntegrationTest {
     @Order(18)
     fun `send - empty message`() {
         requireCredentials()
-        val result = sms.send("96598765432", "")
+        val result = sms.send(TestNumber.get(), "")
         assertEquals("ERROR", result.result)
     }
 
@@ -185,7 +189,7 @@ class IntegrationTest {
     @Order(19)
     fun `send - emoji-only message`() {
         requireCredentials()
-        val result = sms.send("96598765432", "\uD83D\uDE00\uD83D\uDE01\uD83D\uDE02")
+        val result = sms.send(TestNumber.get(), "\uD83D\uDE00\uD83D\uDE01\uD83D\uDE02")
         assertEquals("ERROR", result.result)
         // Message should be empty after emoji stripping
     }
@@ -195,7 +199,7 @@ class IntegrationTest {
     fun `send - deduplication of normalized numbers`() {
         requireCredentials()
         val result = sms.send(
-            listOf("+96598765432", "0096598765432", "96598765432"),
+            listOf(TestNumber.variant("plus"), TestNumber.variant("00"), TestNumber.variant("plain")),
             "Dedup test"
         )
         assertEquals("OK", result.result, "Dedup send failed: ${result.description}")
@@ -207,10 +211,9 @@ class IntegrationTest {
     @Order(21)
     fun `send - single leading zero stripped`() {
         requireCredentials()
-        // 098765432 -> 98765432 (7+ digits, valid)
-        val result = sms.send("098765432", "Leading zero test")
-        // May succeed or fail depending on the country route, but should not crash
-        assertNotNull(result.result)
+        // "0" + test number -> test number (leading zero stripped)
+        val result = sms.send(TestNumber.variant("0"), "Leading zero test")
+        assertEquals("OK", result.result, "Leading zero send failed: ${result.description}")
     }
 
     // ──────────────────────────────────────────────
@@ -247,7 +250,7 @@ class IntegrationTest {
     @Order(40)
     fun `validate - valid Kuwait number`() {
         requireCredentials()
-        val result = sms.validate(listOf("96598765432"))
+        val result = sms.validate(listOf(TestNumber.get()))
         assertTrue(result.error == null, "validate() returned error: ${result.error}")
         assertTrue(result.ok.isNotEmpty() || result.er.isNotEmpty() || result.nr.isNotEmpty(),
             "validate() returned no categorized numbers")
@@ -294,7 +297,7 @@ class IntegrationTest {
     @Order(60)
     fun `send - wrong sender ID handled gracefully`() {
         requireCredentials()
-        val result = sms.send("96598765432", "Test wrong sender", "NONEXISTENT-SENDER-ID-12345")
+        val result = sms.send(TestNumber.get(), "Test wrong sender", "NONEXISTENT-SENDER-ID-12345")
         // API may accept in test mode or reject with ERR008
         // Either way, the client should not crash
         assertNotNull(result.result)

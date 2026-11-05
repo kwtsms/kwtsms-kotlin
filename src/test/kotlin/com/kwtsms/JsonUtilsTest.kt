@@ -5,6 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+// 2026-11-05 09:08 +03: echoed mobile values use the 965XXXXXXXX placeholder; the old sample
+// belongs to a real person. Task: int-testnumber
 class JsonUtilsTest {
 
     @Test
@@ -61,7 +63,7 @@ class JsonUtilsTest {
 
     @Test
     fun `parseJson - nested object`() {
-        val json = """{"result":"OK","mobile":{"OK":["96598765432"],"ER":[],"NR":[]}}"""
+        val json = """{"result":"OK","mobile":{"OK":["965XXXXXXXX"],"ER":[],"NR":[]}}"""
         @Suppress("UNCHECKED_CAST")
         val result = JsonUtils.parseJson(json) as Map<String, Any?>
         assertEquals("OK", result["result"])
@@ -69,7 +71,7 @@ class JsonUtilsTest {
         val mobile = result["mobile"] as Map<String, Any?>
         @Suppress("UNCHECKED_CAST")
         val okList = mobile["OK"] as List<String>
-        assertEquals("96598765432", okList[0])
+        assertEquals(TestNumber.PLACEHOLDER, okList[0])
     }
 
     @Test
@@ -160,14 +162,14 @@ class JsonUtilsTest {
 
     @Test
     fun `parseJson - delivery report with array of objects`() {
-        val json = """{"result":"OK","report":[{"Number":"96598765432","Status":"Received by recipient"}]}"""
+        val json = """{"result":"OK","report":[{"Number":"965XXXXXXXX","Status":"Received by recipient"}]}"""
         @Suppress("UNCHECKED_CAST")
         val result = JsonUtils.parseJson(json) as Map<String, Any?>
         assertEquals("OK", result["result"])
         @Suppress("UNCHECKED_CAST")
         val report = result["report"] as List<Map<String, Any?>>
         assertEquals(1, report.size)
-        assertEquals("96598765432", report[0]["Number"])
+        assertEquals(TestNumber.PLACEHOLDER, report[0]["Number"])
         assertEquals("Received by recipient", report[0]["Status"])
     }
 
@@ -176,13 +178,13 @@ class JsonUtilsTest {
         val original = mapOf<String, Any?>(
             "username" to "test",
             "password" to "pass123",
-            "mobile" to "96598765432"
+            "mobile" to TestNumber.PLACEHOLDER
         )
         val json = JsonUtils.toJson(original)
         @Suppress("UNCHECKED_CAST")
         val parsed = JsonUtils.parseJson(json) as Map<String, Any?>
         assertEquals("test", parsed["username"])
         assertEquals("pass123", parsed["password"])
-        assertEquals("96598765432", parsed["mobile"])
+        assertEquals(TestNumber.PLACEHOLDER, parsed["mobile"])
     }
 }

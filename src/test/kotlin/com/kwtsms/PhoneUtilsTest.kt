@@ -6,6 +6,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+// 2026-11-05 09:07 +03: Kuwait numbers come from KWTSMS_TEST_NUMBER via TestNumber (skips when unset);
+// pass-through values use the 965XXXXXXXX placeholder; other samples no longer embed the old Kuwait sample.
+// Why: the old hardcoded sample belongs to a real person. Task: int-testnumber
 class PhoneUtilsTest {
 
     // ──────────────────────────────────────────────
@@ -14,62 +17,62 @@ class PhoneUtilsTest {
 
     @Test
     fun `normalizePhone - plus prefix stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("+96598765432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("plus")))
     }
 
     @Test
     fun `normalizePhone - double zero prefix stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("0096598765432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("00")))
     }
 
     @Test
     fun `normalizePhone - spaces stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("965 9876 5432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("spaces")))
     }
 
     @Test
     fun `normalizePhone - dashes stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("965-9876-5432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("dashes")))
     }
 
     @Test
     fun `normalizePhone - dots stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("965.9876.5432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("dots")))
     }
 
     @Test
     fun `normalizePhone - parentheses stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("(965) 98765432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("parens")))
     }
 
     @Test
     fun `normalizePhone - slashes stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("965/9876/5432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("slashes")))
     }
 
     @Test
     fun `normalizePhone - mixed separators`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("+965 (987) 65-432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("mixed")))
     }
 
     @Test
     fun `normalizePhone - Arabic-Indic digits converted`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("\u0669\u0666\u0665\u0669\u0668\u0667\u0666\u0665\u0664\u0663\u0662"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("arabic")))
     }
 
     @Test
     fun `normalizePhone - Extended Arabic-Indic digits converted`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("\u06F9\u06F6\u06F5\u06F9\u06F8\u06F7\u06F6\u06F5\u06F4\u06F3\u06F2"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("persian")))
     }
 
     @Test
     fun `normalizePhone - leading zeros stripped`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("0096598765432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("00")))
     }
 
     @Test
     fun `normalizePhone - single leading zero stripped`() {
-        assertEquals("598765432", PhoneUtils.normalizePhone("0598765432"))
+        assertEquals("512345678", PhoneUtils.normalizePhone("0512345678"))
     }
 
     @Test
@@ -120,7 +123,7 @@ class PhoneUtilsTest {
 
     @Test
     fun `normalizePhone - Kuwait no trunk prefix (no change)`() {
-        assertEquals("96598765432", PhoneUtils.normalizePhone("96598765432"))
+        TestNumber.assertSame(TestNumber.get(), PhoneUtils.normalizePhone(TestNumber.variant("plain")))
     }
 
     // ──────────────────────────────────────────────
@@ -129,7 +132,7 @@ class PhoneUtilsTest {
 
     @Test
     fun `findCountryCode - 3-digit code (Kuwait 965)`() {
-        assertEquals("965", PhoneUtils.findCountryCode("96598765432"))
+        assertEquals("965", PhoneUtils.findCountryCode(TestNumber.PLACEHOLDER))
     }
 
     @Test
@@ -153,14 +156,14 @@ class PhoneUtilsTest {
 
     @Test
     fun `validatePhoneFormat - valid Kuwait number`() {
-        val (valid, error) = PhoneUtils.validatePhoneFormat("96598765432")
+        val (valid, error) = PhoneUtils.validatePhoneFormat(TestNumber.get())
         assertTrue(valid)
         assertNull(error)
     }
 
     @Test
     fun `validatePhoneFormat - Kuwait wrong length`() {
-        val (valid, error) = PhoneUtils.validatePhoneFormat("9659876543") // 7 local digits, needs 8
+        val (valid, error) = PhoneUtils.validatePhoneFormat(TestNumber.get().dropLast(1)) // 7 local digits, needs 8
         assertFalse(valid)
         assertTrue(error!!.contains("Kuwait"))
         assertTrue(error.contains("8 digits"))
@@ -205,26 +208,26 @@ class PhoneUtilsTest {
 
     @Test
     fun `validatePhoneInput - valid Kuwait number`() {
-        val (valid, error, normalized) = PhoneUtils.validatePhoneInput("96598765432")
+        val (valid, error, normalized) = PhoneUtils.validatePhoneInput(TestNumber.variant("plain"))
         assertTrue(valid)
         assertNull(error)
-        assertEquals("96598765432", normalized)
+        TestNumber.assertSame(TestNumber.get(), normalized)
     }
 
     @Test
     fun `validatePhoneInput - valid with plus prefix`() {
-        val (valid, error, normalized) = PhoneUtils.validatePhoneInput("+96598765432")
+        val (valid, error, normalized) = PhoneUtils.validatePhoneInput(TestNumber.variant("plus"))
         assertTrue(valid)
         assertNull(error)
-        assertEquals("96598765432", normalized)
+        TestNumber.assertSame(TestNumber.get(), normalized)
     }
 
     @Test
     fun `validatePhoneInput - valid with 00 prefix`() {
-        val (valid, error, normalized) = PhoneUtils.validatePhoneInput("0096598765432")
+        val (valid, error, normalized) = PhoneUtils.validatePhoneInput(TestNumber.variant("00"))
         assertTrue(valid)
         assertNull(error)
-        assertEquals("96598765432", normalized)
+        TestNumber.assertSame(TestNumber.get(), normalized)
     }
 
     @Test
@@ -289,19 +292,19 @@ class PhoneUtilsTest {
 
     @Test
     fun `validatePhoneInput - Arabic digits converted and validated`() {
-        // ٩٦٥٩٨٧٦٥٤٣٢ = 96598765432 (11 digits, valid)
-        val (valid, error, normalized) = PhoneUtils.validatePhoneInput("\u0669\u0666\u0665\u0669\u0668\u0667\u0666\u0665\u0664\u0663\u0662")
+        // The test number written in Arabic-Indic digits (11 digits, valid)
+        val (valid, error, normalized) = PhoneUtils.validatePhoneInput(TestNumber.variant("arabic"))
         assertTrue(valid)
         assertNull(error)
-        assertEquals("96598765432", normalized)
+        TestNumber.assertSame(TestNumber.get(), normalized)
     }
 
     @Test
     fun `validatePhoneInput - whitespace trimmed before validation`() {
-        val (valid, error, normalized) = PhoneUtils.validatePhoneInput("  96598765432  ")
+        val (valid, error, normalized) = PhoneUtils.validatePhoneInput(TestNumber.variant("padded"))
         assertTrue(valid)
         assertNull(error)
-        assertEquals("96598765432", normalized)
+        TestNumber.assertSame(TestNumber.get(), normalized)
     }
 
     @Test
@@ -332,14 +335,14 @@ class PhoneUtilsTest {
 
     @Test
     fun `deduplicatePhones - removes duplicates preserving order`() {
-        val input = listOf("96598765432", "96512345678", "96598765432", "96599999999", "96512345678")
+        val input = listOf(TestNumber.PLACEHOLDER, "96512345678", TestNumber.PLACEHOLDER, "96512340000", "96512345678")
         val result = PhoneUtils.deduplicatePhones(input)
-        assertEquals(listOf("96598765432", "96512345678", "96599999999"), result)
+        assertEquals(listOf(TestNumber.PLACEHOLDER, "96512345678", "96512340000"), result)
     }
 
     @Test
     fun `deduplicatePhones - no duplicates returns same list`() {
-        val input = listOf("96598765432", "96512345678")
+        val input = listOf(TestNumber.PLACEHOLDER, "96512345678")
         val result = PhoneUtils.deduplicatePhones(input)
         assertEquals(input, result)
     }

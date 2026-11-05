@@ -16,7 +16,7 @@ fun main() {
         "user@example.com",    // email
         "12345",               // too short
         "abcdef",              // no digits
-        "+96598765432"         // valid
+        "+965XXXXXXXX"         // valid
     )
 
     println("=== Phone Validation ===")
@@ -50,7 +50,7 @@ fun main() {
     // ── API error handling ──
 
     println("=== API Errors ===")
-    val result = sms.send("96598765432", "Test message")
+    val result = sms.send("965XXXXXXXX", "Test message")
     when (result.result) {
         "OK" -> {
             println("Sent successfully! Balance: ${result.balanceAfter}")
@@ -61,7 +61,7 @@ fun main() {
             result.code?.let { code ->
                 // Map to user-facing messages
                 val userMessage = when (code) {
-                    "ERR006", "ERR025" -> "Please enter a valid phone number in international format (e.g., +965 9876 5432)."
+                    "ERR006", "ERR025" -> "Please enter a valid phone number in international format (e.g., +965 XXXX XXXX)."
                     "ERR003" -> "SMS service is temporarily unavailable. Please try again later."
                     "ERR010", "ERR011" -> "SMS service is temporarily unavailable. Please try again later."
                     "ERR026" -> "SMS delivery to this country is not available. Please contact support."

@@ -42,7 +42,7 @@ fun main() {
 
     // 5. Send OTP (from your HTTP endpoint)
     val sendResult = otpService.sendOtp(
-        phone = "+965 9876 5432",
+        phone = "+965 XXXX XXXX",
         botToken = "captcha-token-from-frontend",
         ip = "192.168.1.1"
     )
@@ -58,7 +58,7 @@ fun main() {
 
     // 6. Verify OTP (from your verification endpoint)
     val verifyResult = otpService.verifyOtp(
-        phone = "+965 9876 5432",
+        phone = "+965 XXXX XXXX",
         code = "123456",
         ip = "192.168.1.1"
     )

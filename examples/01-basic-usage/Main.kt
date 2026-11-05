@@ -34,7 +34,7 @@ fun main() {
     }
 
     // Step 4: Send an SMS
-    val result = sms.send("96598765432", "Hello from kwtSMS Kotlin client!")
+    val result = sms.send("965XXXXXXXX", "Hello from kwtSMS Kotlin client!")
     if (result.result == "OK") {
         println("SMS sent successfully!")
         println("  Message ID: ${result.msgId}")

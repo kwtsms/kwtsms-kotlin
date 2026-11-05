@@ -67,7 +67,7 @@ fun main() {
     println("Balance: ${verify.balance} credits")
 
     // Send an SMS
-    val result = sms.send("96598765432", "Hello from kwtSMS!")
+    val result = sms.send("965XXXXXXXX", "Hello from kwtSMS!")
     println("Result: ${result.result}, Message ID: ${result.msgId}")
 }
 ```
@@ -158,16 +158,16 @@ Send SMS to one or more phone numbers.
 
 ```kotlin
 // Single number
-val result: SendResult = sms.send("96598765432", "Hello!")
+val result: SendResult = sms.send("965XXXXXXXX", "Hello!")
 
 // Multiple numbers (comma-separated)
-val result = sms.send("96598765432,96512345678", "Hello!")
+val result = sms.send("965XXXXXXXX,96512345678", "Hello!")
 
 // Multiple numbers (list)
-val result = sms.send(listOf("96598765432", "96512345678"), "Hello!")
+val result = sms.send(listOf("965XXXXXXXX", "96512345678"), "Hello!")
 
 // Custom sender ID
-val result = sms.send("96598765432", "Hello!", "MY-SENDER")
+val result = sms.send("965XXXXXXXX", "Hello!", "MY-SENDER")
 ```
 
 **SendResult fields:**
@@ -208,7 +208,7 @@ val result: BulkSendResult = sms.sendBulk(phoneList, "Bulk message")
 Validate phone numbers with the kwtSMS API.
 
 ```kotlin
-val result: ValidateResult = sms.validate(listOf("96598765432", "+96512345678"))
+val result: ValidateResult = sms.validate(listOf("965XXXXXXXX", "+96512345678"))
 // result.ok       -> valid and routable numbers
 // result.er       -> format errors
 // result.nr       -> no route (country not activated)
@@ -259,18 +259,18 @@ val result: DeliveryReportResult = sms.deliveryReport("f4c841adee210f31307633cea
 ```kotlin
 import com.kwtsms.PhoneUtils
 
-PhoneUtils.normalizePhone("+96598765432")      // "96598765432"
-PhoneUtils.normalizePhone("0096598765432")     // "96598765432"
-PhoneUtils.normalizePhone("965 9876 5432")     // "96598765432"
-PhoneUtils.normalizePhone("٩٦٥٩٨٧٦٥٤٣٢")    // "96598765432"
+PhoneUtils.normalizePhone("+965XXXXXXXX")      // "965XXXXXXXX"
+PhoneUtils.normalizePhone("00965XXXXXXXX")     // "965XXXXXXXX"
+PhoneUtils.normalizePhone("965 XXXX XXXX")     // "965XXXXXXXX"
+PhoneUtils.normalizePhone("٩٦٥XXXXXXXX")    // "965XXXXXXXX" (Arabic-Indic digits)
 PhoneUtils.normalizePhone("+9660559876543")    // "966559876543" (trunk prefix stripped)
 ```
 
 ### `PhoneUtils.validatePhoneInput(phone)`
 
 ```kotlin
-val (valid, error, normalized) = PhoneUtils.validatePhoneInput("+96598765432")
-// valid=true, error=null, normalized="96598765432"
+val (valid, error, normalized) = PhoneUtils.validatePhoneInput("+965XXXXXXXX")
+// valid=true, error=null, normalized="965XXXXXXXX"
 
 val (valid, error, _) = PhoneUtils.validatePhoneInput("user@example.com")
 // valid=false, error="'user@example.com' is an email address, not a phone number"
@@ -292,7 +292,7 @@ MessageUtils.cleanMessage("OTP: ١٢٣٤")          // "OTP: 1234"
 Match a country code from a normalized phone number. Tries 3-digit codes first, then 2-digit, then 1-digit (longest match wins).
 
 ```kotlin
-PhoneUtils.findCountryCode("96598765432")   // "965" (Kuwait)
+PhoneUtils.findCountryCode("965XXXXXXXX")   // "965" (Kuwait)
 PhoneUtils.findCountryCode("201012345678")  // "20" (Egypt)
 PhoneUtils.findCountryCode("12125551234")   // "1" (USA/Canada)
 PhoneUtils.findCountryCode("99999999999")   // null (unknown)
@@ -303,7 +303,7 @@ PhoneUtils.findCountryCode("99999999999")   // null (unknown)
 Validate a normalized phone number against country-specific format rules (local length + mobile starting digits). Numbers with no matching country rules pass through.
 
 ```kotlin
-PhoneUtils.validatePhoneFormat("96598765432")  // Pair(true, null)
+PhoneUtils.validatePhoneFormat("965XXXXXXXX")  // Pair(true, null)
 PhoneUtils.validatePhoneFormat("96518765432")  // Pair(false, "Invalid Kuwait mobile number: after +965 must start with 4, 5, 6, 9")
 PhoneUtils.validatePhoneFormat("96655987")     // Pair(false, "Invalid Saudi Arabia number: expected 9 digits after +966, got 5")
 ```
@@ -341,7 +341,7 @@ The client caches balance information to reduce unnecessary API calls:
 `balance()` returns the live balance on success. If the API call fails, it returns the cached value. Returns `null` if no cached value exists.
 
 ```kotlin
-val result = sms.send("96598765432", "Hello!")
+val result = sms.send("965XXXXXXXX", "Hello!")
 println("Balance after send: ${result.balanceAfter}")  // from API response
 println("Cached balance: ${sms.cachedBalance}")        // same value, cached
 
@@ -364,7 +364,7 @@ Arabic text is fully supported and preserved. Only digits, invisible chars, emoj
 ## Error Handling
 
 ```kotlin
-val result = sms.send("96598765432", "Hello!")
+val result = sms.send("965XXXXXXXX", "Hello!")
 when (result.result) {
     "OK" -> {
         println("Sent! Balance: ${result.balanceAfter}")
@@ -381,7 +381,7 @@ when (result.result) {
 | Code | Meaning | Action |
 |------|---------|--------|
 | ERR003 | Wrong credentials | Check KWTSMS_USERNAME and KWTSMS_PASSWORD |
-| ERR006 | No valid numbers | Include country code (e.g., 96598765432) |
+| ERR006 | No valid numbers | Include country code (e.g., 965XXXXXXXX) |
 | ERR009 | Empty message | Provide non-empty message text |
 | ERR010 | Zero balance | Recharge at kwtsms.com |
 | ERR013 | Queue full | Auto-retried with backoff |
@@ -402,12 +402,12 @@ for ((code, action) in API_ERRORS) {
 
 | Input | Normalized | Valid? |
 |-------|-----------|--------|
-| `96598765432` | `96598765432` | Yes |
-| `+96598765432` | `96598765432` | Yes |
-| `0096598765432` | `96598765432` | Yes |
-| `965 9876 5432` | `96598765432` | Yes |
-| `965-9876-5432` | `96598765432` | Yes |
-| `٩٦٥٩٨٧٦٥٤٣٢` | `96598765432` | Yes |
+| `965XXXXXXXX` | `965XXXXXXXX` | Yes |
+| `+965XXXXXXXX` | `965XXXXXXXX` | Yes |
+| `00965XXXXXXXX` | `965XXXXXXXX` | Yes |
+| `965 XXXX XXXX` | `965XXXXXXXX` | Yes |
+| `965-XXXX-XXXX` | `965XXXXXXXX` | Yes |
+| `٩٦٥XXXXXXXX` (Arabic-Indic digits) | `965XXXXXXXX` | Yes |
 | `+9660559876543` | `966559876543` | Yes (Saudi trunk prefix stripped) |
 | `9710501234567` | `971501234567` | Yes (UAE trunk prefix stripped) |
 | `user@example.com` | | No (email) |
@@ -501,7 +501,7 @@ Never expose raw API errors like "ERR006" to end users. Map them to friendly mes
 
 | Situation | Raw error | Show to user |
 |-----------|----------|--------------|
-| Invalid phone | ERR006, ERR025 | "Please enter a valid phone number (e.g., +965 9876 5432)." |
+| Invalid phone | ERR006, ERR025 | "Please enter a valid phone number (e.g., +965 XXXX XXXX)." |
 | Wrong credentials | ERR003 | "SMS service is temporarily unavailable. Please try again later." |
 | No balance | ERR010, ERR011 | "SMS service is temporarily unavailable. Please try again later." |
 | Country not supported | ERR026 | "SMS delivery to this country is not available." |

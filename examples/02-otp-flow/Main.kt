@@ -15,7 +15,7 @@ fun main() {
     val sms = KwtSMS.fromEnv()
 
     // Validate the phone number locally before calling the API
-    val phone = "+965 9876 5432"
+    val phone = "+965 XXXX XXXX"
     val (valid, error, normalized) = PhoneUtils.validatePhoneInput(phone)
     if (!valid) {
         println("Invalid phone number: $error")
