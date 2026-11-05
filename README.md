@@ -361,6 +361,16 @@ println("Cached balance: ${sms.cachedBalance}")        // same value, cached
 
 Arabic text is fully supported and preserved. Only digits, invisible chars, emojis, control chars, and HTML are affected.
 
+## User-Agent
+
+Every API request carries the User-Agent `kwtsms-kotlin/<version>`: the library name and version only, no
+personal or customer data. Pass your own product token as `appName` to put it in front:
+
+```kotlin
+val sms = KwtSMS(username, password, senderId = "MY-SENDER", appName = "my-shop/2.1.0")
+// User-Agent: my-shop/2.1.0 kwtsms-kotlin/0.1.4
+```
+
 ## Error Handling
 
 ```kotlin

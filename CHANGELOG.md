@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- The client sends a User-Agent `kwtsms-kotlin/<version>` (name and version only, no personal data) so kwtSMS can see which integrations are in use. An optional `appName` constructor argument puts your app's token in front, e.g. `my-shop/2.1.0 kwtsms-kotlin/0.1.4`. New `KwtSMS.VERSION` (generated from the build version), `userAgent` and `KwtSMS.buildUserAgent()`.
+
 ### Changed
 - Package author and license holder are now kwtSMS.
 - Docs, examples and the ERR006/ERR025 action text use the placeholder `965XXXXXXXX` instead of a real-looking phone number. Tests read the number from the `KWTSMS_TEST_NUMBER` environment variable and are skipped when it is unset. Live tests send only to that number.

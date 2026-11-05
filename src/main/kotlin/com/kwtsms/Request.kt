@@ -265,13 +265,15 @@ internal object ApiRequest {
      * @param endpoint API endpoint name (e.g., "send", "balance")
      * @param payload Request body as a map
      * @param logFile Path to JSONL log file (empty string to disable logging)
+     * @param userAgent User-Agent header (2026-11-05 14:20 +03: added, #939)
      * @return Parsed JSON response as a map
      * @throws ApiException on network or parsing errors
      */
     fun post(
         endpoint: String,
         payload: Map<String, Any?>,
-        logFile: String = ""
+        logFile: String = "",
+        userAgent: String = KwtSMS.buildUserAgent()
     ): Map<String, Any?> {
         val url = "$BASE_URL/$endpoint/"
         val jsonBody = JsonUtils.toJson(payload)
@@ -282,6 +284,8 @@ internal object ApiRequest {
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
             connection.setRequestProperty("Accept", "application/json")
+            // 2026-11-05 14:20 +03: "kwtsms-kotlin/<version>", prefixed by the app token when given (#939).
+            connection.setRequestProperty("User-Agent", userAgent)
             connection.connectTimeout = TIMEOUT_MS
             connection.readTimeout = TIMEOUT_MS
             connection.instanceFollowRedirects = false

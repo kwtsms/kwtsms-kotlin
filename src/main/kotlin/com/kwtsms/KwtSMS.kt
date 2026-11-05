@@ -12,14 +12,29 @@ package com.kwtsms
  * @param testMode When true, messages enter the queue but are not delivered; their credits are held until you
  *   delete them from the Sending Queue in your kwtsms.com account (2026-10-22 15:36 +03: corrected, test sends are not free)
  * @param logFile Path to JSONL log file (empty string to disable logging)
+ * @param appName Product token of the calling app or plugin, e.g. "kwtsms-wordpress/3.5.2", sent before the
+ *   library token in the User-Agent (2026-11-05 14:20 +03: added for per-integration counts, #939)
  */
 class KwtSMS(
     private val username: String,
     private val password: String,
     private val senderId: String = "KWT-SMS",
     private val testMode: Boolean = false,
-    private val logFile: String = "kwtsms.log"
+    private val logFile: String = "kwtsms.log",
+    appName: String = ""
 ) {
+    /** 2026-11-05 14:20 +03: keeps the 5-argument JVM constructor signature for existing Java callers (#939). */
+    constructor(
+        username: String,
+        password: String,
+        senderId: String,
+        testMode: Boolean,
+        logFile: String
+    ) : this(username, password, senderId, testMode, logFile, "")
+
+    /** The User-Agent this client sends: "[app token ]kwtsms-kotlin/<VERSION>" (2026-11-05 14:20 +03, #939). */
+    val userAgent: String = buildUserAgent(appName)
+
     @Volatile
     var cachedBalance: Double? = null
         private set
@@ -34,6 +49,25 @@ class KwtSMS(
         private const val MAX_BATCH_SIZE = 200
         private const val BATCH_DELAY_MS = 500L
         private val ERR013_RETRY_DELAYS = longArrayOf(30_000L, 60_000L, 120_000L)
+
+        /** Library version, sent in the User-Agent. Generated from build.gradle.kts (2026-11-05 14:20 +03, #939). */
+        const val VERSION: String = LIBRARY_VERSION
+
+        /**
+         * Build the User-Agent from an optional app token. The token is caller input, so control characters
+         * (CR/LF would split the header) and non-ASCII characters are removed, whitespace runs become '-',
+         * leading and trailing '-' are trimmed, and it is cut to 64 characters. Empty gives the library token only.
+         * 2026-11-05 14:20 +03: added for per-integration counts (#939).
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun buildUserAgent(appName: String = ""): String {
+            val kept = appName.filter { (it in ' '..'~') || (it.code > 0x9f && it.isWhitespace()) }
+            var app = kept.replace(Regex("\\s+"), "-").trim('-')
+            if (app.length > 64) app = app.substring(0, 64).trimEnd('-')
+            val lib = "kwtsms-kotlin/$VERSION"
+            return if (app.isEmpty()) lib else "$app $lib"
+        }
 
         /**
          * Create a KwtSMS client from environment variables and/or .env file.
@@ -83,7 +117,7 @@ class KwtSMS(
      */
     fun verify(): VerifyResult {
         return try {
-            val response = ApiRequest.post("balance", basePayload(), logFile)
+            val response = ApiRequest.post("balance", basePayload(), logFile, userAgent)
             val result = response["result"]?.toString()
 
             if (result == "OK") {
@@ -115,7 +149,7 @@ class KwtSMS(
      */
     fun balance(): Double? {
         return try {
-            val response = ApiRequest.post("balance", basePayload(), logFile)
+            val response = ApiRequest.post("balance", basePayload(), logFile, userAgent)
             if (response["result"]?.toString() == "OK") {
                 val available = asDouble(response["available"])
                 val purchased = asDouble(response["purchased"])
@@ -225,7 +259,7 @@ class KwtSMS(
         }
 
         return try {
-            val response = ApiRequest.post("send", payload, logFile)
+            val response = ApiRequest.post("send", payload, logFile, userAgent)
             val result = response["result"]?.toString() ?: "ERROR"
 
             if (result == "OK") {
@@ -438,7 +472,7 @@ class KwtSMS(
             val payload = basePayload().apply {
                 put("mobile", deduplicated.joinToString(","))
             }
-            val response = ApiRequest.post("validate", payload, logFile)
+            val response = ApiRequest.post("validate", payload, logFile, userAgent)
             val result = response["result"]?.toString()
 
             if (result == "OK") {
@@ -476,7 +510,7 @@ class KwtSMS(
      */
     fun senderIds(): SenderIdResult {
         return try {
-            val response = ApiRequest.post("senderid", basePayload(), logFile)
+            val response = ApiRequest.post("senderid", basePayload(), logFile, userAgent)
             val result = response["result"]?.toString() ?: "ERROR"
 
             if (result == "OK") {
@@ -510,7 +544,7 @@ class KwtSMS(
      */
     fun coverage(): CoverageResult {
         return try {
-            val response = ApiRequest.post("coverage", basePayload(), logFile)
+            val response = ApiRequest.post("coverage", basePayload(), logFile, userAgent)
             val result = response["result"]?.toString() ?: "ERROR"
 
             if (result == "OK") {
@@ -547,7 +581,7 @@ class KwtSMS(
             val payload = basePayload().apply {
                 put("msgid", msgId)
             }
-            val response = ApiRequest.post("status", payload, logFile)
+            val response = ApiRequest.post("status", payload, logFile, userAgent)
             val result = response["result"]?.toString() ?: "ERROR"
 
             if (result == "OK") {
@@ -586,7 +620,7 @@ class KwtSMS(
             val payload = basePayload().apply {
                 put("msgid", msgId)
             }
-            val response = ApiRequest.post("dlr", payload, logFile)
+            val response = ApiRequest.post("dlr", payload, logFile, userAgent)
             val result = response["result"]?.toString() ?: "ERROR"
 
             if (result == "OK") {
