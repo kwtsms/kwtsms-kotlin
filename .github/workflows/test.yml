@@ -23,7 +23,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@v6
       - name: Run unit tests
         # 2026-11-05 09:09 +03: tests read the test number from this secret and skip when unset. Task: int-testnumber
         env:
@@ -45,7 +45,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@v6
       - name: Run integration tests
         run: ./gradlew test
         env:
