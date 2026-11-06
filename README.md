@@ -4,7 +4,7 @@
 [![CodeQL](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/codeql.yml/badge.svg)](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/codeql.yml)
 [![GitGuardian](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/gitguardian.yml/badge.svg)](https://github.com/kwtsms/kwtsms-kotlin/actions/workflows/gitguardian.yml)
 [![Release](https://img.shields.io/github/v/release/kwtsms/kwtsms-kotlin)](https://github.com/kwtsms/kwtsms-kotlin/releases/latest)
-[![JitPack](https://jitpack.io/v/boxlinknet/kwtsms-kotlin.svg)](https://jitpack.io/#boxlinknet/kwtsms-kotlin)
+[![JitPack](https://jitpack.io/v/kwtsms/kwtsms-kotlin.svg)](https://jitpack.io/#kwtsms/kwtsms-kotlin)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9%2B-7F52FF.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Java 8+](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://adoptium.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -47,7 +47,7 @@ In your `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("com.github.boxlinknet:kwtsms-kotlin:0.1.4")
+    implementation("com.github.kwtsms:kwtsms-kotlin:0.2.0")
 }
 ```
 
@@ -129,7 +129,7 @@ config.fetchAndActivate().addOnCompleteListener {
 
 **Bot protection for Android (Google Play Integrity API):**
 
-Android apps do NOT need CAPTCHA. Use Google Play Integrity API instead — it verifies app genuineness and device integrity, blocking scripts, bots, and modified binaries. Verify the integrity token on your backend server before allowing OTP sends. See [Play Integrity documentation](https://developer.android.com/google/play/integrity).
+Android apps do NOT need CAPTCHA. Use Google Play Integrity API instead - it verifies app genuineness and device integrity, blocking scripts, bots, and modified binaries. Verify the integrity token on your backend server before allowing OTP sends. See [Play Integrity documentation](https://developer.android.com/google/play/integrity).
 
 ## Methods
 
@@ -368,7 +368,7 @@ personal or customer data. Pass your own product token as `appName` to put it in
 
 ```kotlin
 val sms = KwtSMS(username, password, senderId = "MY-SENDER", appName = "my-shop/2.1.0")
-// User-Agent: my-shop/2.1.0 kwtsms-kotlin/0.1.4
+// User-Agent: my-shop/2.1.0 kwtsms-kotlin/0.2.0
 ```
 
 ## Error Handling

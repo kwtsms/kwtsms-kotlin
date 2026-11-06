@@ -9,7 +9,7 @@ import java.util.Base64
 /**
  * Production-grade OTP service with rate limiting, bot protection, and secure storage.
  *
- * Drop-in implementation — copy into your project and wire up an OtpStore adapter
+ * Drop-in implementation - copy into your project and wire up an OtpStore adapter
  * and a CaptchaVerifier (web) or DeviceAttestVerifier (mobile).
  *
  * Flow: sanitize phone -> verify bot protection -> check IP rate limit ->

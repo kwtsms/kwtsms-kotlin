@@ -24,7 +24,7 @@ import java.net.URL
  *   )
  *   val service = OtpService(sms, store, attestVerifier = verifier)
  *
- * Zero dependencies — uses only java.net.HttpURLConnection.
+ * Zero dependencies - uses only java.net.HttpURLConnection.
  *
  * See: https://developer.android.com/google/play/integrity
  */

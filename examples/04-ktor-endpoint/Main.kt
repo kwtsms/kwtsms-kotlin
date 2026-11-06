@@ -20,7 +20,7 @@ import io.ktor.server.routing.*
  * Dependencies (add to build.gradle.kts):
  *   implementation("io.ktor:ktor-server-netty:2.3.7")
  *   implementation("io.ktor:ktor-server-content-negotiation:2.3.7")
- *   implementation("com.github.boxlinknet:kwtsms-kotlin:0.1.3")
+ *   implementation("com.github.kwtsms:kwtsms-kotlin:0.2.0")
  */
 fun main() {
     val sms = KwtSMS.fromEnv()

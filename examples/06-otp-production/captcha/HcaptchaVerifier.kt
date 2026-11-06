@@ -15,7 +15,7 @@ import java.net.URLEncoder
  *
  * Get your secret key at: https://dashboard.hcaptcha.com/
  *
- * Zero dependencies — uses only java.net.HttpURLConnection.
+ * Zero dependencies - uses only java.net.HttpURLConnection.
  * Uses URL-encoded body POST as per hCaptcha API spec.
  */
 class HcaptchaVerifier(private val secretKey: String) : CaptchaVerifier {

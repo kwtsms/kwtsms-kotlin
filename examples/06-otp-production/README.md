@@ -43,8 +43,8 @@ TURNSTILE_SECRET=your_turnstile_secret
 2. **Choose a store**: `MemoryStore` for development, `SqliteStore` for production (auto-creates tables, WAL mode)
 3. **Choose bot protection**: `TurnstileVerifier` or `HcaptchaVerifier` for web; `PlayIntegrityVerifier` for Android
 4. **Create OtpService** with configuration (code length, expiry, cooldown, rate limits)
-5. **Call sendOtp()** from your HTTP endpoint — handles the full flow: phone validation, bot verification, rate limiting, code generation, secure hashing, SMS send, rollback on failure
-6. **Call verifyOtp()** from your verification endpoint — timing-safe comparison, attempt tracking, expiry check
+5. **Call sendOtp()** from your HTTP endpoint - handles the full flow: phone validation, bot verification, rate limiting, code generation, secure hashing, SMS send, rollback on failure
+6. **Call verifyOtp()** from your verification endpoint - timing-safe comparison, attempt tracking, expiry check
 
 ## Security Features
 

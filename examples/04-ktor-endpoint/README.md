@@ -23,7 +23,7 @@ Add dependencies to `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("com.github.boxlinknet:kwtsms-kotlin:0.1.2")
+    implementation("com.github.kwtsms:kwtsms-kotlin:0.2.0")
     implementation("io.ktor:ktor-server-netty:2.3.7")
     implementation("io.ktor:ktor-server-content-negotiation:2.3.7")
 }

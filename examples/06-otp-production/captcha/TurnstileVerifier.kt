@@ -14,7 +14,7 @@ import java.net.URL
  *
  * Get your secret key at: https://dash.cloudflare.com/?to=/:account/turnstile
  *
- * Zero dependencies — uses only java.net.HttpURLConnection.
+ * Zero dependencies - uses only java.net.HttpURLConnection.
  */
 class TurnstileVerifier(private val secretKey: String) : CaptchaVerifier {
 
@@ -38,7 +38,7 @@ class TurnstileVerifier(private val secretKey: String) : CaptchaVerifier {
             if (conn.responseCode != 200) return false
 
             val response = conn.inputStream.bufferedReader(Charsets.UTF_8).readText()
-            // Simple check — avoid JSON library dependency
+            // Simple check - avoid JSON library dependency
             response.contains("\"success\":true") || response.contains("\"success\": true")
         } catch (_: Exception) {
             // Fail closed: any error = verification failed

@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-06
+
 ### Added
-- The client sends a User-Agent `kwtsms-kotlin/<version>` (name and version only, no personal data) so kwtSMS can see which integrations are in use. An optional `appName` constructor argument puts your app's token in front, e.g. `my-shop/2.1.0 kwtsms-kotlin/0.1.4`. New `KwtSMS.VERSION` (generated from the build version), `userAgent` and `KwtSMS.buildUserAgent()`.
+- The client sends a User-Agent `kwtsms-kotlin/<version>` (name and version only, no personal data) so kwtSMS can see which integrations are in use. An optional `appName` constructor argument puts your app's token in front, e.g. `my-shop/2.1.0 kwtsms-kotlin/0.2.0`. New `KwtSMS.VERSION` (generated from the build version), `userAgent` and `KwtSMS.buildUserAgent()`.
 
 ### Changed
 - Package author and license holder are now kwtSMS.
@@ -138,9 +140,10 @@ Initial release of the `kwtsms` Kotlin client library.
 - 4 example programs with companion documentation
 - CHANGELOG, CONTRIBUTING, LICENSE
 
-[Unreleased]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.4...HEAD
-[0.1.4]: https://github.com/boxlinknet/kwtsms-kotlin/compare/v0.1.3...v0.1.4
-[0.1.3]: https://github.com/boxlinknet/kwtsms-kotlin/compare/v0.1.2...v0.1.3
-[0.1.2]: https://github.com/boxlinknet/kwtsms-kotlin/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/boxlinknet/kwtsms-kotlin/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/boxlinknet/kwtsms-kotlin/releases/tag/v0.1.0
+[Unreleased]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.4...v0.2.0
+[0.1.4]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.3...v0.1.4
+[0.1.3]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.2...v0.1.3
+[0.1.2]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/kwtsms/kwtsms-kotlin/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/kwtsms/kwtsms-kotlin/releases/tag/v0.1.0
