@@ -63,20 +63,9 @@ class IntegrationTest {
         assertTrue(result.balance!! >= 0, "Balance should be non-negative")
     }
 
-    @Test
-    @Order(2)
-    fun `verify - wrong credentials`() {
-        requireCredentials()
-        val bad = KwtSMS(
-            username = "kotlin_invalid_user",
-            password = "kotlin_invalid_pass",
-            testMode = true,
-            logFile = ""
-        )
-        val result = bad.verify()
-        assertTrue(!result.ok, "verify() with wrong credentials should fail")
-        assertNotNull(result.error)
-    }
+    // 2026-11-07 00:03 +03: wrong-credential test mocked; live failed logins trip the security log (task neg-auth-tests).
+    // `verify - wrong credentials` removed: ERR003 handling is covered offline in ApiErrorsTest.kt
+    // (`enrichError - adds action for known error code`, `API_ERRORS ERR003 mentions credentials`).
 
     // ──────────────────────────────────────────────
     // balance()
