@@ -16,7 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '17', '21']
+        # 2026-11-08 00:33 +03: Boss 2026-11-08 00:32: test on JDK 17 and 21 only; the library still compiles for Java 8
+        # (jvmTarget 1.8), as kwtsms-java does. Unblocks Gradle 9 and JUnit 6. Task q-kotlin-jdk-matrix.
+        java: ['17', '21']
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
