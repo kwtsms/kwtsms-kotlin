@@ -2,6 +2,7 @@ package com.kwtsms
 
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.TestInstance
@@ -29,6 +30,13 @@ class IntegrationTest {
 
     private lateinit var sms: KwtSMS
     private var credentialsAvailable = false
+
+    // 2026-11-07 20:21 +03: pace live calls (security #946, incident 21445): the API bans bursts over about 8 calls in 10 s.
+    // 2 s before each test keeps a CI run under the limit; nothing waits when credentials are absent.
+    @BeforeEach
+    fun pace() {
+        if (credentialsAvailable) Thread.sleep(2000)
+    }
 
     @BeforeAll
     fun setup() {
