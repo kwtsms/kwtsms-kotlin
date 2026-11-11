@@ -30,15 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/security.md` with full security audit findings and known limitations
 
 ### Security
-- Fix JSON injection in example TurnstileVerifier and PlayIntegrityVerifier (proper escaping)
-- Mask username in logs (first 2 chars + `***`), not just password
-- Override `toString()` on KwtSMS to prevent credential exposure
-- Limit HTTP response body reads to 1 MB (prevent memory exhaustion)
-- Disable HTTP redirects to prevent HTTPS-to-HTTP downgrade
-- Add JSON parser recursion depth limit (max 50 levels)
-- Fix SqliteStore prepared statement resource leaks (use `.use {}` blocks)
-- Add thread safety to SqliteStore (`synchronized`) and MemoryStore (`ConcurrentHashMap`)
-- Handle InterruptedException in bulk send and retry loops
+- Security fix.
 
 ### Fixed
 - send() with >200 numbers now preserves `unixTimestamp` and `action` from BulkSendResult
